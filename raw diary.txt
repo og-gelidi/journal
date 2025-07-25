@@ -1,0 +1,66 @@
+raw diary (form journal using completed app. copy and paste these into the form when its done):
+
+overview:
+
+challenges:
+
+new concepts learned/used:
+
+thoughts:
+
+— 00:03 —
+overview:
+Loose specification written.
+
+thoughts:
+Trying not to overwhelm myself here. need to break up tasks into smaller ones, smaller achievements - create a rudimentary working application, and iterate on that.
+
+— 00:39 —
+overview:
+I began with converting this journal thus far as an xml document, to have a model entry and/or journal item to work with.
+new concepts learned/used:
+XML documents must have a root element wrapping everything. It is not assumed that the document itself is the root element.
+
+thoughts:
+I suppose this app should take the form of a web app launched locally, reading in files or creating new ones, and then adding to or removing the entries and exporting the product as needed. I wonder if there are risks with safety or data integrity with this approach.
+
+I should probably add validation constraints to the xml later down the line, not integral so will not waste time on it now.
+
+
+— 13:18 —
+challenges: 
+Inadvertently discovering alternate methods of achieving this goal, ones that might render a lot of my methods unnecessary. Like, perhaps using XSL to display the journals, rather than parsing and processing the XML files and displaying it using HTML - that would require quite a left turn, and I'd prefer to stick to what I know, applying and reinforcing my current knowledge and proficiency in the tools I do possess. 
+but aren't we as software engineers meant to value efficiency over all?
+putting this thought to the back of my mind for now.
+
+thoughts:
+later down the line, add functionality for json as an alternative (starting thinking I should have used json from the start, but this idea is better, maybe I could even make conversion an option - export either to json or xml)
+
+
+— 14:10 —
+overview:
+Reading up on manipulating XML and AJAX, figuring out how I want to receive, read in, and serve the data -  logistically rather than heuristically (for now).
+
+challenges:
+I've been second-guessing the implementation of this project as a web app, as opposed to simply a native program with a GUI like Tkinter or Swing.
+
+I suppose I'm trying to make this project an educational one. That being said, I don't know if I should go for efficiency in the design (i.e. if its local-only and requires no internet connection, then necessitating a server, even a local one,  is pointless complexity and should be avoided) or proficiency in the craft (improving or practising web dev skills, which could potentially be more transferrable and useful than GUI tools) -- or maybe I'm overthinking it all and I should just focus on making the thing work for now. But, I know if I just shrug these concerns off now, perhaps later it will be so difficult and so much more time consuming (and also awkward on the commits) for such a sharp right turn, wherein I change everything to work as a native program rather than a web app, which might also require entire language changes and rewrites.
+
+for now I probably shouldn't freeze over design purity. Nor should I try so painstakingly to anticipate these lessons or pitfalls before they happen. Besides, I could always make a v2 at some point, if I feel I should.
+
+
+thoughts:
+I can either make a single session app, where the user uploads their file and downloads the end product once they have finished edited it (fully offline), or an app that stores the journals for the user and allows importing and exporting at any time. Perhaps a branch for each?
+first assume you have a dom object ready. then later on we can branch out into offline-version and web-version
+
+
+
+
+— 08/06/2025 11:49 —
+new concepts learned/used:
+the FileReader API for js. add an input element to the html, add an eventlistener to the element, and on change set it to retrieve the file (event.target.files[0]), and create a filereader and set it to perform the logic on the text content (in <filereader>.result) when it has fully loaded (<filereader>.onload). then set it all in motion using <filereader>.readAsTextFile().
+
+thoughts:
+im doing something wrong with my approach. maybe its because im at the baby steps for now but every other step seems to require learning some new API, rather than any kind of problem solving. i cant make my journey become one of just memorisation.
+
+! allocate more time to exercises, algorithms, data, debugging - leetcode, and let this take a backseat.
