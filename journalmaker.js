@@ -1,4 +1,4 @@
-class project {
+class Project {
     constructor(name) {
         this.name = name;
         this.entries = [];
@@ -12,13 +12,14 @@ class project {
     }
 }
 
-class entry {
-    constructor(overview, challenges, newConcepts, thoughts, time) {
+class Entry {
+    constructor(overview, challenges, newConcepts, thoughts, time, name) {
         this.overview = overview;
         this.challenges = challenges;
         this.newConcepts = newConcepts;
         this.thoughts = thoughts;
         this.time = time;
+        this.name = name;
     }
 }
 
@@ -29,6 +30,7 @@ function readJournal(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
+            console.log("Reading journal");
             const journal = parseXML(reader.result);
             displayJournal(journal);
         }
@@ -37,29 +39,26 @@ function readJournal(event) {
 
 
 function parseXML(XMLString) {
-    const journal = [];
     const parser = new DOMParser();
     const XMLDoc = parser.parseFromString(XMLString, "application/xml");
-    const DOMProjects = Array.from(XMLDoc.getElementsByTagName("project"));
 
-    DOMProjects.forEach((DOMProject) => {
-        const project = new project(DOMProject.getAttribute("name"));
-        const DOMEntries = Array.from(DOMProject.getElementsByTagName("entry"));
-        
+        const project = new Project(XMLDoc.documentElement.getAttribute("name"));
+        const DOMEntries = Array.from(XMLDoc.getElementsByTagName("entry"));
+
         DOMEntries.forEach((DOMEntry) => {
-            let overview = getChildTextByTag(DOMEntry, "overview");
-            let challenges = getChildTextByTag(DOMEntry, "challenges");
-            let newConcepts = getChildTextByTag(DOMEntry, "newConcepts");
-            let thoughts = getChildTextByTag(DOMEntry, "thoughts");
+            let overview = DOMEntry.getElementsByTagName("overview")[0]?.textContent.trim() || "";
+            let challenges = DOMEntry.getElementsByTagName("challenges")[0]?.textContent.trim() || "";
+            let newConcepts = DOMEntry.getElementsByTagName("newConcepts")[0]?.textContent.trim() || "";
+            let thoughts = DOMEntry.getElementsByTagName("thoughts")[0]?.textContent.trim() || "";
             let time = DOMEntry.getAttribute("time") || "";
+            let name = DOMEntry.getAttribute("name") || "";
 
-            const entry = new entry(overview,challenges,newConcepts,thoughts,time);
+            const entry = new Entry(overview,challenges,newConcepts,thoughts,time,name);
             project.addEntry(entry);            
         })
-        journal.push(project);
-    });
 
-    return journal;
+    console.log("XML finished parsing.")
+    return project;
 }
 
 function displayJournal(journal) {
@@ -69,12 +68,12 @@ function displayJournal(journal) {
     journal.entries.forEach((entry) => {
         journalString = catEntry(journalString, entry);
     })
-    
-    
+
+    journalDiv.innerHTML = journalString;
 }
 
 function catEntry(journalString, entry) {
-    let entryString = entry.name + " -- Time: " + entry.time + "\n";
+    let entryString = entry.name + " -- " + entry.time + "\n";
     entryString = "<h2>" + entryString +  "</h2>\n";
 
     if (entry.overview) {
