@@ -7,7 +7,7 @@ class project {
         this.entries.push(entry);
     }
     removeEntry(entry) {
-        let index = this.entries.indexOf(entry);
+        const index = this.entries.indexOf(entry);
         this.entries.splice(index, 1);
     }
 }
@@ -22,28 +22,29 @@ class entry {
     }
 }
 
-function readJournal() {
-    document.getElementById("inputFile").addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        const fileReader = new FileReader();
 
-        fileReader.onload = function() {
-            console.log("file loaded successfully.");
-            //parse the file into xml and do stuff
+document.getElementById("inputFile").addEventListener("change", readJournal); 
+    
+function readJournal(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const journal = parseXML(reader.result);
+            displayJournal(journal);
         }
-        fileReader.readAsText(file);
-    })
-}
+        reader.readAsText(file);
+    }
+
 
 function parseXML(XMLString) {
-    let journal = [];
+    const journal = [];
     const parser = new DOMParser();
     const XMLDoc = parser.parseFromString(XMLString, "application/xml");
-    let DOMProjects = Array.from(XMLDoc.getElementsByTagName("project"));
+    const DOMProjects = Array.from(XMLDoc.getElementsByTagName("project"));
 
     DOMProjects.forEach((DOMProject) => {
-        let project = new project(DOMProject.getAttribute("name"));
-        let DOMEntries = Array.from(DOMProject.getElementsByTagName("entry"));
+        const project = new project(DOMProject.getAttribute("name"));
+        const DOMEntries = Array.from(DOMProject.getElementsByTagName("entry"));
         
         DOMEntries.forEach((DOMEntry) => {
             let overview = getChildTextByTag(DOMEntry, "overview");
@@ -52,11 +53,48 @@ function parseXML(XMLString) {
             let thoughts = getChildTextByTag(DOMEntry, "thoughts");
             let time = DOMEntry.getAttribute("time") || "";
 
-            let entry = new entry(overview,challenges,newConcepts,thoughts,time);
+            const entry = new entry(overview,challenges,newConcepts,thoughts,time);
             project.addEntry(entry);            
         })
         journal.push(project);
     });
 
     return journal;
+}
+
+function displayJournal(journal) {
+    const journalDiv = document.getElementById("journal");
+    //start constructing the html string
+    let journalString = "<h1>" + journal.name + "</h1>\n";
+    journal.entries.forEach((entry) => {
+        journalString = catEntry(journalString, entry);
+    })
+    
+    
+}
+
+function catEntry(journalString, entry) {
+    let entryString = entry.name + " -- Time: " + entry.time + "\n";
+    entryString = "<h2>" + entryString +  "</h2>\n";
+
+    if (entry.overview) {
+        entryString += "<h3>Overview:</h3>\n";
+        entryString += "<p>" + entry.overview + "</p>\n";
+    }
+    if (entry.challenges) {
+        entryString += "<h3>Challenges:</h3>\n";
+        entryString += "<p>" + entry.challenges + "</p>\n";
+    }
+    if (entry.newConcepts) {
+        entryString += "<h3>Challenges:</h3>\n";
+        entryString += "<p>" + entry.newConcepts + "</p>\n";
+    }
+    if (entry.thoughts) {
+        entryString += "<h3>Challenges:</h3>\n";
+        entryString += "<p>" + entry.thoughts + "</p>\n";
+    }
+
+
+
+    return journalString + entryString;
 }
