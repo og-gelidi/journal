@@ -24,9 +24,9 @@ class Entry {
 }
 
 
-document.getElementById("inputFile").addEventListener("change", readJournal); 
+document.getElementById("inputFile").addEventListener("change", readAndDisplay); 
     
-function readJournal(event) {
+function readAndDisplay(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
@@ -63,37 +63,44 @@ function parseXML(XMLString) {
 
 function displayJournal(journal) {
     const journalDiv = document.getElementById("journal");
-    //start constructing the html string
-    let journalString = "<h1>" + journal.name + "</h1>\n";
+    journalDiv.innerHTML = `<h1>${journal.name}</h1>\n`;
     journal.entries.forEach((entry) => {
-        journalString = catEntry(journalString, entry);
+        catEntry(journalDiv, entry);
     })
-
-    journalDiv.innerHTML = journalString;
 }
 
-function catEntry(journalString, entry) {
-    let entryString = entry.name + " -- " + entry.time + "\n";
-    entryString = "<h2>" + entryString +  "</h2>\n";
+function catEntry(journalDiv, entry) {
+    let entryHTML;
+    if (entry.name) {
+        entryHTML = `${entry.name} -- ${entry.time}\n`;
+    }
+    else {
+        entryHTML = entry.time + "\n";
+    }
+    entryHTML = "<h2>" + entryHTML +  "</h2>\n";
 
     if (entry.overview) {
-        entryString += "<h3>Overview:</h3>\n";
-        entryString += "<p>" + entry.overview + "</p>\n";
+        entryHTML += `<h3>Overview:</h3>\n<p>${entry.overview}</p>\n`;
     }
     if (entry.challenges) {
-        entryString += "<h3>Challenges:</h3>\n";
-        entryString += "<p>" + entry.challenges + "</p>\n";
+        entryHTML += `<h3>Challenges:</h3>\n<p>${entry.challenges}</p>\n`;
     }
     if (entry.newConcepts) {
-        entryString += "<h3>Challenges:</h3>\n";
-        entryString += "<p>" + entry.newConcepts + "</p>\n";
+        entryHTML += `<h3>newConcepts:</h3>\n<p>${entry.newConcepts}</p>\n`;
     }
     if (entry.thoughts) {
-        entryString += "<h3>Challenges:</h3>\n";
-        entryString += "<p>" + entry.thoughts + "</p>\n";
+        entryHTML += `<h3>Thoughts:</h3>\n<p>${entry.thoughts}</p>\n`;
     }
 
 
+    const entryDiv = document.createElement("div");
+    entryDiv.class = "entry";
+    entryDiv.innerHTML = entryHTML;
 
-    return journalString + entryString;
+    const edit = document.createElement("button");
+    edit.textContent = "Edit Entry";
+    edit.onclick = console.log("edit button pressed");
+    entryDiv.appendChild(edit);
+
+    journalDiv.appendChild(entryDiv);
 }
