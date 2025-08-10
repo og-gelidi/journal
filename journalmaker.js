@@ -18,7 +18,7 @@ class Entry {
         this.challenges = challenges;
         this.newConcepts = newConcepts;
         this.thoughts = thoughts;
-        this.time = time;
+        this.time = new Date(time);
         this.name = name;
     }
 }
@@ -64,18 +64,29 @@ function parseXML(XMLString) {
 function displayJournal(journal) {
     const journalDiv = document.getElementById("journal");
     journalDiv.innerHTML = `<h1>${journal.name}</h1>\n`;
+    let lastDate = null;
     journal.entries.forEach((entry) => {
-        catEntry(journalDiv, entry);
+        catEntry(journalDiv, entry, lastDate);
+        lastDate = entry.time;
     })
 }
 
-function catEntry(journalDiv, entry) {
-    let entryHTML;
-    if (entry.name) {
-        entryHTML = `${entry.name} -- ${entry.time}\n`;
+function catEntry(journalDiv, entry, lastDate=null) {
+    let entryHTML, displayTime;
+    let utc = entry.time.toUTCString();
+    if (isSameDate(lastDate, entry.time)) {
+        // just display the time, if the day hasn't changed
+        displayTime = utc.slice(17,22);
     }
     else {
-        entryHTML = entry.time + "\n";
+        displayTime = utc.slice(5, 16) + " " + utc.slice(17, 22);
+    }
+
+    if (entry.name) {
+        entryHTML = `${entry.name} -- ${displayTime}\n`;
+    }
+    else {
+        entryHTML = `${displayTime}\n`;
     }
     entryHTML = "<h2>" + entryHTML +  "</h2>\n";
 
@@ -103,4 +114,11 @@ function catEntry(journalDiv, entry) {
     entryDiv.appendChild(edit);
 
     journalDiv.appendChild(entryDiv);
+}
+
+function isSameDate(date1,date2) {
+    return date1 && date2 &&
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate();
 }

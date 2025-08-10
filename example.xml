@@ -1,5 +1,5 @@
 <journal name="journal maker...journal">
-    <entry  time="00:03">
+    <entry  time="2025-06-04T00:03Z">
         <overview> loose specification written </overview>
         <challenges></challenges>
         <newConcepts></newConcepts>
@@ -8,7 +8,7 @@
         </thoughts>
     </entry>
 
-    <entry name="second" time="00:39">
+    <entry name="second" time="2025-06-04T00:39Z">
         <overview>
             I began with converting this journal thus far as an xml document, to have a model entry and/or journal item to work with.
             new concepts learned/used:
@@ -23,7 +23,7 @@
         </thoughts>
     </entry>
 
-    <entry  time="13:18">
+    <entry  time="2025-06-04T13:18Z">
         <overview></overview>
         <challenges>
             Inadvertently discovering alternate methods of achieving this goal, ones that might render a lot of my methods unnecessary. Like, perhaps using XSL to display the journals, rather than parsing and processing the XML files and displaying it using HTML - that would require quite a left turn, and I'd prefer to stick to what I know, applying and reinforcing my current knowledge and proficiency in the tools I do possess. 
