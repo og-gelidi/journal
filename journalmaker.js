@@ -61,26 +61,34 @@ function parseXML(XMLString) {
     return project;
 }
 
+let lastDate = null;
+
 function displayJournal(journal) {
     const journalDiv = document.getElementById("journal");
     journalDiv.innerHTML = `<h1>${journal.name}</h1>\n`;
-    let lastDate = null;
     journal.entries.forEach((entry) => {
-        catEntry(journalDiv, entry, lastDate);
-        lastDate = entry.time;
+        catEntry(journalDiv, entry);
     })
+
+    const newEntryBtn = document.createElement("button");
+    newEntryBtn.id = "newEntryBtn";
+    newEntryBtn.textContent = "New Entry";
+    newEntryBtn.onclick = () => addNewEntry(journalDiv);
+    journalDiv.append(newEntryBtn);
 }
 
-function catEntry(journalDiv, entry, lastDate=null) {
+function catEntry(journalDiv, entry) {
     let entryHTML, displayTime;
     let utc = entry.time.toUTCString();
     if (isSameDate(lastDate, entry.time)) {
-        // just display the time, if the day hasn't changed
+        //just display the time, if the day hasn't changed
         displayTime = utc.slice(17,22);
     }
     else {
+        //else, date and time
         displayTime = utc.slice(5, 16) + " " + utc.slice(17, 22);
     }
+    lastDate = entry.time;
 
     if (entry.name) {
         entryHTML = `${entry.name} -- ${displayTime}\n`;
@@ -121,4 +129,49 @@ function isSameDate(date1,date2) {
     date1.getFullYear() === date2.getFullYear() &&
     date1.getMonth() === date2.getMonth() &&
     date1.getDate() === date2.getDate();
+}
+
+function addNewEntry(journalDiv) {
+    const newEntryBtn = document.getElementById("newEntryBtn");
+    newEntryBtn.remove();
+
+    const time = new Date();
+    const entryForm = `
+        <form id="entryForm">
+            <input type="hidden" name="time" value="${time.toUTCString()}"><br>
+            <label>Title(optional): <input type="text" name="name"></label><br>
+            <label>Overview: <textarea name="overview"></textarea></label><br>
+            <label>Challenges: <textarea name="challenges"></textarea></label><br>
+            <label>New concepts learned/used: <textarea name="newConcepts"></textarea></label><br>
+            <label>Thoughts: <textarea name="thoughts"></textarea></label><br>
+            <button type="submit">Save Entry</button>
+        </form>
+    `;
+    journalDiv.insertAdjacentHTML("beforeend", entryForm);
+    document.getElementById("entryForm").addEventListener("submit", (event) => submitEntry(event));
+}
+
+function submitEntry(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const newEntry = new Entry(
+        formData.get("overview"),formData.get("challenges"),
+        formData.get("newConcepts"),formData.get("thoughts"),
+        formData.get("time"),formData.get("name")
+    );
+    const journalDiv = document.getElementById("journal");
+    catEntry(journalDiv, newEntry);
+
+    const entryForm = document.getElementById("entryForm");
+    entryForm.remove();
+
+    const newEntryBtn = document.createElement("button");
+    newEntryBtn.id = "newEntryBtn";
+    newEntryBtn.textContent = "New Entry";
+    newEntryBtn.onclick = () => addNewEntry(journalDiv);
+    journalDiv.append(newEntryBtn);
+}
+
+function exportFile(journalDiv) {
+
 }
