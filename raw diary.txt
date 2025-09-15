@@ -64,3 +64,61 @@ thoughts:
 im doing something wrong with my approach. maybe its because im at the baby steps for now but every other step seems to require learning some new API, rather than any kind of problem solving. i cant make my journey become one of just memorisation.
 
 ! allocate more time to exercises, algorithms, data, debugging - leetcode, and let this take a backseat.
+
+
+
+
+— 26/07/2025 11:59 —
+overview:
+I paused this project for a while to try out job simulations on Forage and go on a few holidays. Now, with a fresh mind, I have set about writing the functions for parsing XML into the journal objects I can display and manipulate.
+
+new concepts learned/used:
+writing classes in javascript, and adding the constructor and class methods. also, editing 
+
+
+
+— 27/07/2025 10:12 —
+thoughts: 
+i think im getting a bit confused, doubting my approach with regards to dom manipulation, and how it might be redundant to just move everything from the DOM object into other custom objects i have made (journal, entry, etc). i remembered why it made sense eventually, but this did stop me in my tracks for a while.
+
+if im getting confused with my approach, that just signals how i should have made another design document, for the logic flow of the app. ill do that now, actually. to prevent this happening again.
+if im getting confused with my approach, that just signals how i should have made another design document, for the logic flow of the app.
+
+challenges:
+i realise now I've gone wrong a bit, using pdfs for the design documents in my project, seeing as any time i might edit it, git will store an entire new copy in the commit history, which hardly sounds space efficient. adding all design documents to .gitignore.
+
+
+
+— 08/08/2025 22:49 —
+challenges:
+I'm worried about just how much I'm slowing myself down with all this project nonsense, by forcing myself to have some kind of pure or natural process, free of unnecessary shortcuts or unnecessary AI use. is this bad for the long run? should i just be doing projects for the sake of the project? make the thing itself, then worry about painstaking documentation and formatting and building intricate knowledge of the obscure APIs I used to get there?
+
+The burnout I feel cannot be denied either. While I feel this is a mental issue and one that I address with discipline rather than excuses, there gets a point when something must be wrong, not with me but with my process.
+
+I mean, just LOOK at how slowly this is all going. I'm so caught up with all this faff, that it has been months and I still haven't produced a working prototype. Surely I will learn more (and feel more, for that matter) having a working product rather than a perpetually incomplete perfectionism?
+
+Apparently this is called the 'Craftsmanship Trap'...
+
+
+
+— 08/08/2025 23:41 —
+overview:
+I FINALLY have something that does something. Successfully got the example.xml file to be displayed on the html page.
+
+
+
+— 09/08/2025 19:49 —
+overview:
+Need to refactor my code a little to prepare for ahead - making more use of DOM elements in my display functions, rather than building the elements via brute force string concatenation, so that later editing and adding new entries will be much easier. What's more, building elements and appending them where possible is a lot safer than placing user input into innerHTML and risking injection.
+
+new concepts learned/used:
+Formatted strings in javascript, using backticks and ${}, along with the <button> element.
+
+
+
+— 15/09/2025 01:32 —
+overview: 
+why the hell didn't i do this before - i have just discovered how useful React is, how it makes all this stupid excessive DOM manipulation so obsolete and silly. doing a complete overhaul of the app, with invigorated drive to complete it!
+
+new concepts learned/used:
+React, using components and props, using a build tool like Vite and how the project directories are typically laid out, and how to make use of the state afforded by React! 
